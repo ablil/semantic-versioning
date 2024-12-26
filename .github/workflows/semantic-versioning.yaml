@@ -1,0 +1,18 @@
+name: 'Test'
+
+on:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ablil/semantic-versioning@testing-workflow
+        id: version
+      - name: display
+        run: |
+          echo current version ${{ steps.version.outputs.version }}
+          echo next major ${{ steps.version.outputs.major }}
+          echo next minor ${{ steps.version.outputs.minor }}
+          echo next patch ${{ steps.version.outputs.patch }}

@@ -1,0 +1,24 @@
+name: semantic versionning
+description: picks up and increment the latest version from tag history
+
+outputs:
+  version:
+    description: 'current version'
+    value: ${{ steps.main.outputs.version }}
+  major:
+    description: 'incremented major version'
+    value: ${{ steps.main.outputs.major }}
+  minor:
+    description: 'incremented minor version'
+    value: ${{ steps.main.outputs.minor }}
+  patch:
+    description: 'incremented patch version'
+    value: ${{ steps.main.outputs.patch }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 'semantic versioning'
+      id: main
+      shell: bash
+      run: ${{ github.action_path }}/run.sh
