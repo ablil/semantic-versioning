@@ -1,6 +1,12 @@
 name: semantic versionning
 description: picks up and increment the latest version from tag history
 
+inputs:
+  initial:
+    description: use this version if no prior one exists on Git history
+    required: false
+    default: '0.0.0'
+
 outputs:
   version:
     description: 'current version'
@@ -21,4 +27,4 @@ runs:
     - name: 'semantic versioning'
       id: main
       shell: bash
-      run: ${{ github.action_path }}/run.sh
+      run: ${{ github.action_path }}/run.sh ${{ inputs.initial }}

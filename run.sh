@@ -1,13 +1,15 @@
 #!/bin/bash
 
+set -e
+starting_version=$1
 
 echo "fetching all tags ..."
 git fetch origin main --tags > /dev/null 2>&1
 
 latest_tag=$(git tag --list --sort=-v:refname "v*.*.*" | head -n 1)
 if [[ -z "$latest_tag" ]]; then
-  echo "No semantic versioning tags found. Starting with v0.0.0"
-  latest_tag="v0.0.0"
+  echo "No semantic versioning tags found. Starting with v$starting_version"
+  latest_tag="v$starting_version"
 fi
 
 version=${latest_tag#v}
