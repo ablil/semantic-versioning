@@ -19,6 +19,7 @@ No input is required
 | `major`   | The next major version (`vX+1.0.0`). |
 | `minor`   | The next minor version (`vX.Y+1.0`). |
 | `patch`   | The next patch version (`vX.Y.Z+1`). |
+| `bumpto`  | The next version you should bump to, based on your git commit history |
 
 ## Example Usage
 
@@ -50,4 +51,3 @@ jobs:
           echo "Next minor version: ${{ steps.semver.outputs.minor }}"
           echo "Next patch version: ${{ steps.semver.outputs.patch }}"
 ```
-
