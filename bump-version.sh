@@ -10,6 +10,7 @@ minor=0
 patch=0
 
 if [[ -n "$starting_version" ]]; then
+    echo "Using $starting_version as a starting version"
     IFS='.' read -r major minor patch <<< "$starting_version"
 fi
 
@@ -30,4 +31,5 @@ while read -r line; do
     fi
 done < <(IFS= git log $ref..HEAD --pretty=format:"%s" --reverse)
 
-echo $major.$minor.$patch
+echo "Based on Git commit history, you should bump to $major.$minor.$patch"
+echo bumpto=$major.$minor.$patch >> $GITHUB_OUTPUT

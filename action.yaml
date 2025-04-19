@@ -10,24 +10,39 @@ inputs:
 outputs:
   version:
     description: 'current version'
-    value: ${{ steps.main.outputs.version }}
+    value: ${{ steps.current.outputs.version }}
   major:
     description: 'incremented major version'
-    value: ${{ steps.main.outputs.major }}
+    value: ${{ steps.next.outputs.major }}
   minor:
     description: 'incremented minor version'
-    value: ${{ steps.main.outputs.minor }}
+    value: ${{ steps.next.outputs.minor }}
   patch:
     description: 'incremented patch version'
-    value: ${{ steps.main.outputs.patch }}
+    value: ${{ steps.next.outputs.patch }}
   bumpto:
     description: next version you should bump to, based on your git commit hitory
-    value: ${{ steps.main.outputs.bumpto }}
+    value: ${{ steps.bump.outputs.bumpto }}
 
 runs:
   using: 'composite'
   steps:
-    - name: 'semantic versioning'
-      id: main
+    - name: get latest tag
       shell: bash
-      run: ${{ github.action_path }}/run.sh ${{ inputs.initial }}
+      id: current
+      run: ${{ github.action_path }}/get-latest-tag.sh
+
+    - name: get next semantic versions
+      id: next
+      shell: bash
+      run: ${{ github.action_path }}/next-version.sh ${{ steps.current.outputs.current || inputs.initial || '0.0.0' }}
+
+    - name: get next semantic version based on Git commits history
+      id: bump
+      shell: bash
+      run: |
+        if [[ -n "${{ steps.current.outputs.current }}" ]]; then
+            bash ${{ github.action_path }}/bump-version.sh ${{ steps.current.outputs.current }} ${{ steps.current.outputs.current }}
+        else
+            bash ${{ github.action_path }}/bump-version.sh $(git rev-list --max-parents=0 HEAD) ${{ inputs.initial }}
+        fi
