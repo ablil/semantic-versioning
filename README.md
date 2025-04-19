@@ -1,15 +1,23 @@
 # Semantic Versioning GitHub Action
 
-This GitHub Action picks up the latest semantic versioning tag (`vX.Y.Z`) from your Git repository, parses it, and calculates the next **major**, **minor**, and **patch** versions. It’s useful for projects following semantic versioning practices to automate version management.
+This GitHub Action automatically parses your Git history using Conventional Commits and computes the next semantic version based on commit messages — no manual versioning required.
 
 ## Features
-- Fetches the latest semantic version tag (`vX.Y.Z`) from the main branch.
-- Computes the next **major**, **minor**, and **patch** versions.
-- Handles repositories with no tags by initializing to `v0.0.0`.
+- Scans your Git commit history from the latest version tag (or first commit if none exists)
+- Applies semantic versioning rules:
+    - fix: bumps patch
+    - feat: bumps minor
+
+    - fix!: bump major
+    - feat!: bump major
+- Optionally, you can set a custom starting version
+- Outputs the new version you shuuld bump to, along with the next potential major, minor, and patch versions
 
 ## Inputs
 
-No input is required
+| Name      | Description                          |
+|-----------|--------------------------------------|
+| `initial` | read Git history starting from this version |
 
 ## Outputs
 
