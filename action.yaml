@@ -20,6 +20,9 @@ outputs:
   patch:
     description: 'incremented patch version'
     value: ${{ steps.main.outputs.patch }}
+  bumpto:
+    description: next version you should bump to, based on your git commit hitory
+    value: ${{ steps.main.outputs.bumpto }}
 
 runs:
   using: 'composite'
